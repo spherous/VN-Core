@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b82b6bfc77d8be429567edc51684ecd, type: 3}
+  m_Name: TestStripWithNarrator
+  m_EditorClassIdentifier: 
+  dialogueScript: {fileID: 4900000, guid: 1dde44dc1ca91ab45827bbff2a2943a3, type: 3}
+  dialogueList:
+  - speaker: 
+    dialogue: TOM deliberately lays his imaginary fork down and his chair back from
+      the table.
+  - speaker: Tom
+    dialogue: "I haven\u2019t enjoyed one bite of this dinner because of your constant
+      directions on how to eat it. It\u2019s you that makes me rush through meals
+      with your hawk-like attention to every bite I take. Sickening \u2013 spoils
+      my appetite \u2013 all of the discussion of \u2013 animals\u2019 secretion
+      \u2013 salivary glands \u2013 mastication!"
+  - speaker: Amanda
+    dialogue: Temperament like a Metropolitan star!
+  - speaker: 
+    dialogue: TOM rises and crosses downstage.
+  - speaker: Amanda
+    dialogue: "You\u2019re not excused from the table."
+  - speaker: Tom
+    dialogue: "I\u2019m getting a cigarette."
+  - speaker: Amanda
+    dialogue: You smoke too much.
+  - speaker: 
+    dialogue: LAURA rises.
+  - speaker: Laura
+    dialogue: "I\u2019ll bring in the blancmange. "
+  - speaker: 
+    dialogue: TOM remains standing with his cigarette by the portieres during the
+      following.
