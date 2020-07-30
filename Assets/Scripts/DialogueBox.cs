@@ -1,49 +1,66 @@
 ﻿using UnityEngine;
 using TMPro;
+using Sirenix.OdinInspector;
 
 public class DialogueBox : MonoBehaviour
 {
+    MomentManager momentManager => MomentManager.instance;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI dialogueText;
-    public Speed textPrintingSpeed = Speed.Fast;
-    public bool printing = false;
     private Dialogue currentDialogue;
+    public Speed textPrintingSpeed = Speed.Fast;
+
+    [ReadOnly] public bool printing = false;
+    [ReadOnly] public bool autoPlay = false;
+
+    public float displayForTime;
+    private float advanceAtTime;
+
     private int currentPrintIndex = 0;
     private float nextPrintTime;
 
     private void Update()
     {
-        switch(textPrintingSpeed)
+        if(printing)
         {
-            // Each text printing speed prints at a different rate.
-            case Speed.Instant:
-                return;
-            case Speed.VeryFast:
-                // 2 characters per frame
-                currentPrintIndex = currentPrintIndex + 2 > currentDialogue.dialogue.Length ? currentDialogue.dialogue.Length : currentPrintIndex + 2;
-                break;
-            case Speed.Fast:
-                // 1 character every frame
-                currentPrintIndex = currentPrintIndex + 1 > currentDialogue.dialogue.Length ? currentDialogue.dialogue.Length : currentPrintIndex + 1;
-                break;
-            case Speed.Medium when Time.timeSinceLevelLoad >= nextPrintTime:
-                // 1 character every 0.025 seconds
-                currentPrintIndex = currentPrintIndex + 1 > currentDialogue.dialogue.Length ? currentDialogue.dialogue.Length : currentPrintIndex + 1;
-                nextPrintTime = Time.timeSinceLevelLoad + .025f;
-                break;
-            case Speed.Slow when Time.timeSinceLevelLoad >= nextPrintTime:
-                // 1 character every 0.05 seconds
-                currentPrintIndex = currentPrintIndex + 1 > currentDialogue.dialogue.Length ? currentDialogue.dialogue.Length : currentPrintIndex + 1;
-                nextPrintTime = Time.timeSinceLevelLoad + .05f;
-                break;
-            default:
-                return;
-        }
+            switch(textPrintingSpeed)
+            {
+                // Each text printing speed prints at a different rate.
+                case Speed.Instant:
+                    return;
+                case Speed.VeryFast:
+                    // 2 characters per frame
+                    currentPrintIndex = currentPrintIndex + 2 > currentDialogue.dialogue.Length ? currentDialogue.dialogue.Length : currentPrintIndex + 2;
+                    break;
+                case Speed.Fast:
+                    // 1 character every frame
+                    currentPrintIndex = currentPrintIndex + 1 > currentDialogue.dialogue.Length ? currentDialogue.dialogue.Length : currentPrintIndex + 1;
+                    break;
+                case Speed.Medium when Time.timeSinceLevelLoad >= nextPrintTime:
+                    // 1 character every 0.025 seconds
+                    currentPrintIndex = currentPrintIndex + 1 > currentDialogue.dialogue.Length ? currentDialogue.dialogue.Length : currentPrintIndex + 1;
+                    nextPrintTime = Time.timeSinceLevelLoad + .025f;
+                    break;
+                case Speed.Slow when Time.timeSinceLevelLoad >= nextPrintTime:
+                    // 1 character every 0.05 seconds
+                    currentPrintIndex = currentPrintIndex + 1 > currentDialogue.dialogue.Length ? currentDialogue.dialogue.Length : currentPrintIndex + 1;
+                    nextPrintTime = Time.timeSinceLevelLoad + .05f;
+                    break;
+                default:
+                    return;
+            }
 
-        dialogueText.text = currentDialogue.dialogue.Substring(0, currentPrintIndex);
-        
-        if(currentPrintIndex == currentDialogue.dialogue.Length)
-            printing = false;
+            dialogueText.text = currentDialogue.dialogue.Substring(0, currentPrintIndex);
+            
+            if(currentPrintIndex == currentDialogue.dialogue.Length)
+            {
+                printing = false;
+                if(autoPlay)
+                    advanceAtTime = Time.timeSinceLevelLoad + displayForTime;
+            }
+        }
+        else if(autoPlay && Time.timeSinceLevelLoad >= advanceAtTime)
+            momentManager.ChangeDialogue();
     }
 
     public void DisplayDialogue(Dialogue dialogue)
@@ -57,6 +74,8 @@ public class DialogueBox : MonoBehaviour
             // When it's instant, print the whole thing
             printing = false;
             currentPrintIndex = currentDialogue.dialogue.Length;
+            if(autoPlay)
+                advanceAtTime = Time.timeSinceLevelLoad + displayForTime;
         }
         else if(textPrintingSpeed == Speed.VeryFast)
         {

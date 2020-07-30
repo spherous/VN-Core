@@ -30,16 +30,16 @@ public class MomentManager : MonoBehaviour
         if(ui.dialogueBox.printing)
             ui.dialogueBox.PrintAll();
         else
-        {
-            // A progression value of -1 should  rewind the dialogue, if available, while 1 should advance the dialogue
-            int progressionValue = Mathf.FloorToInt(context.ReadValue<float>());
-            
-            currentStripIndex = progressionValue == 1 
-                ? currentStripIndex + 1 >= stripToPlay.dialogueList.Count ? 0 : currentStripIndex + 1
-                : currentStripIndex - 1 <= 0 ? 0 : currentStripIndex - 1;
+            ChangeDialogue(Mathf.FloorToInt(context.ReadValue<float>()));
+    }
+    public void ChangeDialogue(int progressionValue = 1)
+    {
+        // A progression value of -1 should  rewind the dialogue, if available, while 1 should advance the dialogue
+        currentStripIndex = progressionValue == 1 
+            ? currentStripIndex + 1 >= stripToPlay.dialogueList.Count ? 0 : currentStripIndex + 1
+            : currentStripIndex - 1 <= 0 ? 0 : currentStripIndex - 1;
 
-            ui.DisplayDialogue(stripToPlay.dialogueList[currentStripIndex]);
-        }
+        ui.DisplayDialogue(stripToPlay.dialogueList[currentStripIndex]);
     }
 
     public void BlockInput() => inputBlocked = true;

@@ -2517,6 +2517,8 @@ MonoBehaviour:
   dialogueText: {fileID: 957064373}
   textPrintingSpeed: 2
   printing: 0
+  autoPlay: 0
+  displayForTime: 8
 --- !u!1 &1628658908
 GameObject:
   m_ObjectHideFlags: 0
@@ -2529,6 +2531,7 @@ GameObject:
   - component: {fileID: 1628658912}
   - component: {fileID: 1628658911}
   - component: {fileID: 1628658910}
+  - component: {fileID: 1628658913}
   m_Layer: 5
   m_Name: Auto Button
   m_TagString: Untagged
@@ -2636,6 +2639,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1628658908}
   m_CullTransparentMesh: 0
+--- !u!114 &1628658913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1628658908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7e0e4b11aa881b458dc2f5362159b87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 1628658910}
+  image: {fileID: 1628658911}
+  dialogueBox: {fileID: 1520484144}
+  onColor: {r: 0.32498217, g: 0.56060797, b: 0.6320754, a: 1}
+  offColor: {r: 0.35686275, g: 0.35686275, b: 0.35686275, a: 1}
 --- !u!1 &1665864091
 GameObject:
   m_ObjectHideFlags: 0
