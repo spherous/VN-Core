@@ -2,19 +2,16 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LoadGame : MonoBehaviour
+public static class LoadGame
 {
-    MomentManager momentManager => MomentManager.instance;
-    [SerializeField] private Button button;
+    private static MomentManager momentManager => MomentManager.instance;
 
-    private void Awake() => button.onClick.AddListener(Load);
-
-    private void Load()
+    public static void Load()
     {
-        if(File.Exists(Application.persistentDataPath + Path.DirectorySeparatorChar + "Save"))
+        if(File.Exists(GamePaths.savePath + "Save"))
         {
             SaveData save = JsonUtility.FromJson<SaveData>(
-                File.ReadAllText(Application.persistentDataPath + Path.DirectorySeparatorChar + "Save")
+                File.ReadAllText(GamePaths.savePath + "Save")
             );
             
             if(save.currentStrip != null)
