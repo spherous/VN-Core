@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using UnityEngine;
-using UnityEngine.UI;
 
 public static class LoadGame
 {
@@ -8,21 +7,19 @@ public static class LoadGame
 
     public static void Load()
     {
-        if(File.Exists(GamePaths.savePath + "Save"))
+        if(!File.Exists(GamePaths.savePath + "Save"))
+            return;
+        
+        SaveData save = JsonUtility.FromJson<SaveData>(
+            File.ReadAllText(GamePaths.savePath + "Save")
+        );
+        
+        if(save.currentStrip != null)
         {
-            SaveData save = JsonUtility.FromJson<SaveData>(
-                File.ReadAllText(GamePaths.savePath + "Save")
-            );
-            
-            if(save.currentStrip != null)
-            {
-                momentManager.EnterMoment(save.currentStrip);
-                momentManager.JumpToLine(save.currentDialogueLine);
-            }
-            else
-            {
-                momentManager.ExitMoment();
-            }
+            momentManager.EnterMoment(save.currentStrip);
+            momentManager.JumpToLine(save.currentDialogueLine);
         }
+        else
+            momentManager.ExitMoment();
     }
 }
